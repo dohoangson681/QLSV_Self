@@ -19,16 +19,50 @@ function addSinhVien() {
     var diemToan = getELE("txtDiemToan").value ;
     var diemLy = getELE("txtDiemLy").value ;
     var diemHoa = getELE("txtDiemHoa").value ;
-    // tao new instance cho Class Sinh Vien
-    var sv = new SinhVien(maSV,tenSV,emailSV,passwordSV,ngaysinhSV,khoahocSV,Number(diemToan),Number(diemLy),Number(diemHoa)) ; 
-    // console.log(sv) ; kiem tra tao instance thanh cong
-    dssv.addSV(sv) ;
-    // sau khi them dc sinh vien thi hien thi len giao dien
-    showUI(dssv.listSV) ; 
-    // sau do se luu vao local
-    setLocalStorage(dssv.listSV) ; 
-    // reset form sau khi them sv
-    resetFormInput() ; 
+    // first need to check validation input from user then add a new student
+    var validation = new Validation() ; 
+    var isValid = true  ; 
+    // check maSV empty or not
+    // isValid &= validation.checkEmpty(maSV , "spanMaSV" , "*Mã sinh viên không được để trống.") && validation.checkMaSV(maSV , "spanMaSV" , "*Mã sinh viên đã tồn tại.") ;
+    // ? nếu e viết thế này thì nó sẽ hiện đc tất cả tb cùng 1 lúc 
+    isValid = isValid & validation.checkEmpty(maSV , "spanMaSV" , "*Mã sinh viên không được để trống.")
+    isValid = isValid & validation.checkEmpty(tenSV , "spanTenSV" , "*Tên sinh viên không được để trống.") 
+    // ?  nhưng nếu e viết thế này thì nó hiện đúng 1 cái đầu
+    isValid = isValid && validation.checkEmpty(maSV , "spanMaSV" , "*Mã sinh viên không được để trống.")
+    isValid = isValid && validation.checkEmpty(tenSV , "spanTenSV" , "*Tên sinh viên không được để trống.") 
+    // check tenSV empty or not
+    // isValid &= validation.checkEmpty(tenSV , "spanTenSV" , "*Tên sinh viên không được để trống.") &&  validation.checkName(tenSV , "spanTenSV" , "*Tên sinh viên không đúng định dạng.");
+    
+    // check emailSV empty or not
+    // isValid &= validation.checkEmpty(emailSV , "spanEmailSV" , "*Email không được để trống.") &&  validation.checkEmail(emailSV , "spanEmailSV" , "*Email không đúng định dạng.");
+    // console.log(isValid) ; 
+    // check passwordSV empty or not
+    // isValid &= validation.checkEmpty(passwordSV , "spanMatKhau" , "*Mật khẩu không được để trống.") && validation.checkPassword(passwordSV , "spanMatKhau" , "*Mật khẩu chứa ít nhất 1 số , ít chữ in hoa , 1 chữ in thương , 1 kí tự đặc biệt.") ;
+    // check ngaysinhSV empty or not
+    // isValid &= validation.checkEmpty(ngaysinhSV , "spanNgaySinh" , "*Vui lòng nhập ngày sinh của bạn.") ;
+    // check khoahocSV empty or not
+    // isValid &= validation.checkKH("khSV" , "spanKhoaHoc" , "*Vui lòng chọn khóa học của bạn.") ;
+    // check diemToan valid
+    // isValid &= validation.checkEmpty(diemToan , "spanToan" , "*Vui lòng nhập điểm của bạn.") && validation.checkScore(diemToan , "spanToan" , "*Điểm của bạn không hợp lệ.") ;
+    // check diemLy valid 
+    // isValid &= validation.checkEmpty(diemLy , "spanLy" , "*Vui lòng nhập điểm của bạn.") && validation.checkScore(diemLy , "spanLy" , "*Điểm của bạn không hợp lệ.") ;
+    // check diemHoa valid 
+    // isValid &= validation.checkEmpty(diemHoa , "spanHoa" , "*Vui lòng nhập điểm của bạn.") && validation.checkScore(diemHoa , "spanHoa" , "*Điểm của bạn không hợp lệ.") ;
+     
+    
+    if(isValid){
+            // if isValid == true then add a new student
+            // tao new instance cho Class Sinh Vien
+        var sv = new SinhVien(maSV,tenSV,emailSV,passwordSV,    ngaysinhSV,khoahocSV,Number(diemToan),Number(diemLy),Number (diemHoa)) ; 
+        // console.log(sv) ; kiem tra tao instance thanh cong
+        dssv.addSV(sv) ;
+        // sau khi them dc sinh vien thi hien thi len giao dien
+        showUI(dssv.listSV) ; 
+        // sau do se luu vao local
+        setLocalStorage(dssv.listSV) ; 
+        // reset form sau khi them sv
+        resetFormInput() ; 
+    }
 
 }
 // ham xoa sinh vien
@@ -130,3 +164,10 @@ function resetFormInput() {
     getELE("txtMaSV").disabled = false  ; 
 }
 getELE("btnReset").onclick = resetFormInput ; 
+// var isValid = true ; 
+//1 isValid  &=  true && false ; // kq : 0 
+//2 isValid = isValid & true && false ; // kq : false
+//3 isValid = isValid & (true && false) ; // kq : 0
+//4 isValid = isValid && true ; // kq : true
+//5 isValid = (isValid & true) && false ; // kq : false
+// console.log(isValid) ; 

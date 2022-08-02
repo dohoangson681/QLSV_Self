@@ -1,6 +1,8 @@
 /**
  * Class danh sach sinh vien dung de luu danh sach cac sinh vien
  */
+    // Trong js có 1 đặc điểm là 1 giá trị nó gán là false rồi thì nó sẽ ko chạy mấy code phía sau liên quan đến cái biến đó => mặc định nó là false luôn 
+    
  function DanhSachSinhVien() {
     // this property is used to add a new student and save in an array
     this.listSV = [] ; 
